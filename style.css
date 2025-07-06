@@ -1,0 +1,266 @@
+/* Reset and base styles */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', Arial, sans-serif; background: #f7f7f7; color: #222; min-height: 100vh; }
+header { 
+  background: #2d6cdf; 
+  color: #fff; 
+  padding: 1.5rem 0; 
+  text-align: center; 
+}
+.header-content { 
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 120px;  /* Added padding to account for logo width */
+}
+.logo {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.header-text {
+  text-align: center;
+  max-width: 800px;  /* Limit text width for better readability */
+}
+header h1 { 
+  margin-bottom: 0.3rem;
+  font-size: 2.2rem;
+}
+header h2 { 
+  font-size: 1.5rem; 
+  margin-bottom: 0.5rem; 
+  font-weight: normal;
+  opacity: 0.9;  /* Slightly subtle compared to h1 */
+}
+nav { 
+  display: flex; 
+  justify-content: center; 
+  gap: 0.5rem; 
+  flex-wrap: wrap; 
+  padding: 0 1rem;
+}
+.tab-btn { 
+  background: #fff; 
+  color: #2d6cdf; 
+  border: none; 
+  padding: 0.5rem 1.2rem; 
+  border-radius: 4px 4px 0 0; 
+  cursor: pointer; 
+  font-weight: 500; 
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.tab-btn.active, .tab-btn:hover { background: #e3edff; }
+main { 
+  max-width: 900px; 
+  margin: 2rem auto; 
+  background: #fff; 
+  border-radius: 8px; 
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06); 
+  padding: 2rem 1rem; 
+}
+.tab-content { display: block; }
+form { 
+  display: flex; 
+  flex-direction: column;
+  gap: 1rem; 
+  margin-bottom: 1.5rem;
+  padding: 0 1rem;
+}
+form label { 
+  display: flex; 
+  flex-direction: column; 
+  font-size: 1rem;
+  width: 100%;
+}
+form input, form select { 
+  margin-top: 0.3rem; 
+  padding: 0.8rem; 
+  border: 1px solid #b3c6e0; 
+  border-radius: 4px; 
+  font-size: 1rem;
+  width: 100%;
+  max-width: 100%;
+}
+form button { 
+  background: #2d6cdf; 
+  color: #fff; 
+  border: none; 
+  padding: 0.8rem 1.5rem; 
+  border-radius: 4px; 
+  font-size: 1rem; 
+  cursor: pointer; 
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 200px;
+  align-self: center;
+}
+form button:hover { background: #1b4fa0; }
+table { 
+  width: 100%; 
+  border-collapse: collapse; 
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+table th, table td { 
+  border: 1px solid #e3edff; 
+  padding: 0.6rem 0.4rem; 
+  text-align: left; 
+}
+table th { background: #e3edff; }
+table td { background: #f9fbff; }
+table tr:nth-child(even) td { background: #f1f6ff; }
+button, .tab-btn { outline: none; }
+.edit-btn, .delete-btn { 
+  background: none; 
+  border: none; 
+  cursor: pointer; 
+  font-size: 1.1rem;
+  padding: 0.5rem;
+}
+.edit-btn { color: #2d6cdf; }
+.delete-btn { color: #e74c3c; }
+footer { 
+  text-align: center; 
+  padding: 1rem 0; 
+  background: #e3edff; 
+  color: #2d6cdf; 
+  margin-top: 2rem; 
+  border-radius: 0 0 8px 8px; 
+}
+/* Modal styles */
+.modal { 
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  width: 100vw; 
+  height: 100vh; 
+  background: rgba(0,0,0,0.3); 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  z-index: 1000; 
+}
+.modal-content { 
+  background: #fff; 
+  padding: 2rem; 
+  border-radius: 8px; 
+  width: 90%;
+  max-width: 500px;
+  position: relative; 
+}
+.close { 
+  position: absolute; 
+  top: 0.7rem; 
+  right: 1rem; 
+  font-size: 1.5rem; 
+  color: #2d6cdf; 
+  cursor: pointer; 
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .header-content {
+    flex-direction: column;
+    padding: 0 1rem;
+  }
+  
+  .logo {
+    position: static;
+    transform: none;
+    width: 100px;
+    height: 100px;
+    margin-bottom: 1rem;
+  }
+  
+  header h1 {
+    font-size: 1.8rem;
+  }
+  
+  header h2 {
+    font-size: 1.2rem;
+  }
+  
+  main {
+    margin: 1rem;
+    padding: 1rem 0;
+  }
+  
+  nav {
+    gap: 0.3rem;
+  }
+  
+  .tab-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  form {
+    padding: 0 0.5rem;
+  }
+  
+  form input, form select {
+    padding: 0.7rem;
+  }
+  
+  table {
+    font-size: 0.85rem;
+  }
+  
+  table th, table td {
+    padding: 0.5rem 0.3rem;
+  }
+  
+  .modal-content {
+    padding: 1.5rem 1rem;
+    width: 95%;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+  
+  header h2 {
+    font-size: 1rem;
+  }
+  
+  .logo {
+    width: 80px;
+    height: 80px;
+  }
+  
+  nav {
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 0 0.5rem;
+  }
+  
+  .tab-btn {
+    width: 100%;
+    border-radius: 4px;
+    text-align: center;
+  }
+  
+  form button {
+    width: 100%;
+    max-width: none;
+  }
+  
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+} 

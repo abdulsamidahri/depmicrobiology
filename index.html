@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Department of Microbiology</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Hide dashboard by default */
+    #dashboardSection {
+      display: none;
+    }
+    /* Login specific styles */
+    .login-container {
+      background: white;
+      padding: 3rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      margin: 0 auto;
+    }
+    .login-logo {
+      width: 150px;
+      height: 150px;
+      margin: 0 auto 1.5rem;
+      display: block;
+    }
+    .login-container h1 {
+      color: #2d6cdf;
+      font-size: 2.2rem;
+      margin-bottom: 0.3rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+    .login-container h2 {
+      color: #666;
+      font-size: 1.6rem;
+      margin-bottom: 2rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: center;
+      max-width: 300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: #444;
+      font-weight: 500;
+      font-size: 1.1rem;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid #e0e0e0;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      text-align: center;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus {
+      outline: none;
+      border-color: #2d6cdf;
+    }
+    .login-button {
+      background: #2d6cdf;
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      width: 100%;
+      max-width: 300px;
+      margin-top: 1.5rem;
+      transition: background 0.2s;
+    }
+    .login-button:hover {
+      background: #1b4fa0;
+    }
+    .error-message {
+      color: #e74c3c;
+      margin-top: 1rem;
+      display: none;
+    }
+    #loginSection {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f7f7f7;
+    }
+    #dashboardSection {
+      display: none;
+    }
+
+    /* Class Management Styles */
+    .class-management {
+      padding: 20px;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .class-selection {
+      margin-bottom: 30px;
+    }
+
+    .class-selection select {
+      width: 200px;
+      padding: 8px;
+      border: 2px solid #e0e0e0;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    .subjects-container {
+      background: #f9f9f9;
+      padding: 20px;
+      border-radius: 6px;
+    }
+
+    .subject-entry {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      align-items: center;
+      background: white;
+      padding: 15px;
+      border-radius: 6px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .subject-entry input {
+      padding: 8px;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    .subject-entry input[type="text"] {
+      width: 200px;
+    }
+
+    .subject-entry .teacher-name {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .subject-entry .teacher-name input {
+      width: 180px;
+    }
+
+    .edit-teacher-btn {
+      background: none;
+      border: none;
+      color: #2d6cdf;
+      cursor: pointer;
+      padding: 4px;
+      font-size: 1.1rem;
+      opacity: 0.7;
+      transition: opacity 0.2s;
+    }
+
+    .edit-teacher-btn:hover {
+      opacity: 1;
+    }
+
+    .teacher-name.editing .edit-teacher-btn {
+      color: #4CAF50;
+    }
+
+    .remove-subject {
+      background: #ff4444;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .action-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 1rem;
+      margin: 10px 0;
+    }
+
+    .action-button.primary {
+      background: #2d6cdf;
+      color: white;
+      margin-left: 15px;
+    }
+
+    #addSubjectBtn {
+      background: #4CAF50;
+      color: white;
+    }
+
+    #subjectsList {
+      margin-bottom: 20px;
+    }
+
+    /* Attendance Controls Styles */
+    .attendance-controls, .report-controls {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    }
+
+    .control-group {
+      flex: 1;
+      min-width: 200px;
+    }
+
+    .control-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #444;
+      font-weight: 500;
+    }
+
+    .control-group select,
+    .control-group input {
+      width: 100%;
+      padding: 8px;
+      border: 2px solid #e0e0e0;
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    .control-group select:focus,
+    .control-group input:focus {
+      outline: none;
+      border-color: #2d6cdf;
+    }
+
+    #attendanceTable, #reportsTable {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      background: white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    #attendanceTable th, #attendanceTable td,
+    #reportsTable th, #reportsTable td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    #attendanceTable th, #reportsTable th {
+      background: #f5f5f5;
+      font-weight: 600;
+    }
+
+    #attendanceTable tr:last-child td,
+    #reportsTable tr:last-child td {
+      border-bottom: none;
+    }
+
+    #attendanceForm button[type="submit"] {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Login Section -->
+  <section id="loginSection">
+    <div class="login-container">
+      <img src="Brown_Minimalist_Personal_Brand_Photography_Circle_Logo-removebg-preview.png" alt="Department Logo" class="login-logo">
+      <h1>Microbiology</h1>
+      <h2>GCUH</h2>
+      <form id="loginForm" onsubmit="return validateLogin(event)">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" required>
+        </div>
+                  <button type="submit" class="login-button">Login</button>
+          <div id="errorMessage" class="error-message">
+            Invalid username or password
+          </div>
+        </form>
+      </div>
+    </section>
+
+  <!-- Dashboard Section -->
+  <section id="dashboardSection">
+    <header>
+      <div class="header-content">
+        <img src="Brown_Minimalist_Personal_Brand_Photography_Circle_Logo-removebg-preview.png" alt="Department Logo" class="logo">
+        <div class="header-text">
+          <h1>Department of Microbiology</h1>
+          <h2>Government College University Hyderabad</h2>
+        </div>
+      </div>
+      <nav>
+        <button class="tab-btn" data-tab="manage-classes">Manage Classes</button>
+        <button class="tab-btn" data-tab="add-student">Add Student</button>
+        <button class="tab-btn" data-tab="manage-students">Manage Students</button>
+        <button class="tab-btn" data-tab="mark-attendance">Mark Attendance</button>
+        <button class="tab-btn" data-tab="attendance-reports">Attendance Reports</button>
+        <button class="tab-btn" id="logoutBtn" onclick="logout()">Logout</button>
+      </nav>
+    </header>
+    <main>
+      <!-- Manage Classes and Subjects Tab -->
+      <section id="manage-classes" class="tab-content">
+        <h2>Manage Classes and Subjects</h2>
+        <div class="class-management">
+          <div class="class-selection">
+            <h3>Select or Create Class</h3>
+            <select id="selectClass">
+              <option value="">Select Class</option>
+              <option value="BS-I">BS-I</option>
+              <option value="BS-II">BS-II</option>
+              <option value="BS-III">BS-III</option>
+              <option value="BS-IV">BS-IV</option>
+            </select>
+          </div>
+
+          <div class="subjects-container">
+            <h3>Manage Subjects and Teachers</h3>
+            <div id="subjectsList">
+              <!-- Subject entries will be added here dynamically -->
+            </div>
+            <button id="addSubjectBtn" class="action-button">Add New Subject</button>
+            <button id="saveClassBtn" class="action-button primary">Save Class Configuration</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Add Student Tab -->
+      <section id="add-student" class="tab-content">
+        <h2>Add Student</h2>
+        <form id="addStudentForm">
+          <label>Name<input type="text" name="name" required></label>
+          <label>Enrollment Number<input type="text" name="enrollment" required></label>
+          <label>Father's Name<input type="text" name="father" required></label>
+          <label>CNIC (optional)<input type="text" name="cnic"></label>
+          <label>Email<input type="email" name="email" required></label>
+          <label>Mobile Number<input type="tel" name="mobile" required></label>
+          <label>Class
+            <select name="class" required>
+              <option value="">Select Class</option>
+              <option value="BS-I">BS-I (Microbiology)</option>
+              <option value="BS-II">BS-II (Microbiology)</option>
+              <option value="BS-III">BS-III (Microbiology)</option>
+              <option value="BS-IV">BS-IV (Microbiology)</option>
+            </select>
+          </label>
+          <button type="submit">Add Student</button>
+        </form>
+      </section>
+      <!-- Manage Students Tab -->
+      <section id="manage-students" class="tab-content" style="display:none">
+        <h2>Manage Students</h2>
+        <div>
+          <label>Filter by Class:
+            <select id="filterClass">
+              <option value="">All</option>
+              <option value="BS-I">BS-I (Microbiology)</option>
+              <option value="BS-II">BS-II (Microbiology)</option>
+              <option value="BS-III">BS-III (Microbiology)</option>
+              <option value="BS-IV">BS-IV (Microbiology)</option>
+            </select>
+          </label>
+        </div>
+        <table id="studentsTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Enrollment</th>
+              <th>Father</th>
+              <th>CNIC</th>
+              <th>Email</th>
+              <th>Mobile</th>
+              <th>Class</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <!-- Edit Modal -->
+        <div id="editModal" class="modal" style="display:none">
+          <div class="modal-content">
+            <span class="close" id="closeEditModal">&times;</span>
+            <h3>Edit Student</h3>
+            <form id="editStudentForm">
+              <input type="hidden" name="id">
+              <label>Name<input type="text" name="name" required></label>
+              <label>Enrollment Number<input type="text" name="enrollment" required></label>
+              <label>Father's Name<input type="text" name="father" required></label>
+              <label>CNIC (optional)<input type="text" name="cnic"></label>
+              <label>Email<input type="email" name="email" required></label>
+              <label>Mobile Number<input type="tel" name="mobile" required></label>
+              <label>Class
+                <select name="class" required>
+                  <option value="BS-I">BS-I (Microbiology)</option>
+                  <option value="BS-II">BS-II (Microbiology)</option>
+                  <option value="BS-III">BS-III (Microbiology)</option>
+                  <option value="BS-IV">BS-IV (Microbiology)</option>
+                </select>
+              </label>
+              <button type="submit">Save Changes</button>
+            </form>
+          </div>
+        </div>
+      </section>
+      <!-- Mark Attendance Tab -->
+      <section id="mark-attendance" class="tab-content" style="display:none">
+        <h2>Mark Attendance</h2>
+        <div class="attendance-controls">
+          <div class="control-group">
+            <label>Select Class:
+              <select id="attendanceClass" required>
+                <option value="">Select Class</option>
+                <option value="BS-I">BS-I</option>
+                <option value="BS-II">BS-II</option>
+                <option value="BS-III">BS-III</option>
+                <option value="BS-IV">BS-IV</option>
+              </select>
+            </label>
+          </div>
+          <div class="control-group">
+            <label>Select Subject:
+              <select id="attendanceSubject" required>
+                <option value="">Select Subject</option>
+                <!-- Subjects will be populated dynamically -->
+              </select>
+            </label>
+          </div>
+          <div class="control-group">
+            <label>Date: <input type="date" id="attendanceDate" required></label>
+          </div>
+        </div>
+        <form id="attendanceForm">
+          <table id="attendanceTable">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Enrollment</th>
+                <th>Present</th>
+                <th>Absent</th>
+                <th>Leave</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+          <button type="submit" class="action-button primary">Save Attendance</button>
+        </form>
+      </section>
+      <!-- Attendance Reports Tab -->
+      <section id="attendance-reports" class="tab-content" style="display:none">
+        <h2>Attendance Reports</h2>
+        <div class="report-controls">
+          <div class="control-group">
+            <label>Select Class:
+              <select id="reportClass" required>
+                <option value="">All Classes</option>
+                <option value="BS-I">BS-I</option>
+                <option value="BS-II">BS-II</option>
+                <option value="BS-III">BS-III</option>
+                <option value="BS-IV">BS-IV</option>
+              </select>
+            </label>
+          </div>
+          <div class="control-group">
+            <label>Select Subject:
+              <select id="reportSubject">
+                <option value="">All Subjects</option>
+                <!-- Subjects will be populated dynamically -->
+              </select>
+            </label>
+          </div>
+          <div class="control-group">
+            <button id="downloadCSV" class="action-button">Download CSV</button>
+          </div>
+        </div>
+        <table id="reportsTable">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Enrollment</th>
+              <th>Class</th>
+              <th>Subject</th>
+              <th>Total Present</th>
+              <th>Total Absent</th>
+              <th>Total Leave</th>
+              <th>Attendance %</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </section>
+    </main>
+    <footer>
+      <p>&copy; 2024 Department of Microbiology - Government College University Hyderabad</p>
+    </footer>
+  </section>
+
+  <script>
+    // First, clear any existing login state
+    localStorage.removeItem('isLoggedIn');
+    
+    // Login credentials
+    const ADMIN_USERNAME = 'admin';
+    const ADMIN_PASSWORD = 'admin123';
+
+    // Check login status on page load
+    window.onload = function() {
+      // Always show login first
+      document.getElementById('loginSection').style.display = 'flex';
+      document.getElementById('dashboardSection').style.display = 'none';
+      // Clear form
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('errorMessage').style.display = 'none';
+    };
+
+    function validateLogin(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      const errorMessage = document.getElementById('errorMessage');
+
+      if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+        localStorage.setItem('isLoggedIn', 'true');
+        showDashboard();
+      } else {
+        errorMessage.style.display = 'block';
+      }
+      return false;
+    }
+
+    function showDashboard() {
+      document.getElementById('loginSection').style.display = 'none';
+      document.getElementById('dashboardSection').style.display = 'block';
+      // Trigger first tab
+      document.querySelector('.tab-btn').click();
+    }
+
+    function logout() {
+      localStorage.removeItem('isLoggedIn');
+      document.getElementById('loginSection').style.display = 'flex';
+      document.getElementById('dashboardSection').style.display = 'none';
+      document.getElementById('username').value = '';
+      document.getElementById('password').value = '';
+      document.getElementById('errorMessage').style.display = 'none';
+    }
+  </script>
+  <script src="script.js"></script>
+</body>
+</html> 
